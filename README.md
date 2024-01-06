@@ -14,15 +14,21 @@ Why are we creating our own httpClient.
 - to check code coverage for our library - go test ./... -cover
 
 Main.Minor.Patch
-Main - Breaking changes to already existing api.
+Main - Breaking changes to already existing api. if 0 it means its not stable.
 Minor- added more api but existing api works as usual.
 Patch - fixed existing api or modified implementation details of existing api.
 
 \ Master Branch - this branch contains our stable code.
 $ git checkout -b feature/httpClient - this contains features that we are adding to our branch.
+
 $ git add .
+
 $ git commit -m "initial version"
-$ git push -u origin feature/http-client
+
+$ git push -u origin feature/httpClient // this indicates we are adding a feature to our httpClient lib.
+
 $ git tag v0.1.0
+
 $ git tag // displays the current tag of our commit
+
 $ git push origin v0.1.0
