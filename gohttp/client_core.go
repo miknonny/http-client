@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
-	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -46,6 +45,7 @@ func (c *httpClient) do(method string, url string, headers http.Header, body int
 		return nil, err
 	}
 
+	// We are still yet to remove the mock from our source code.
 	if mock := mockupServer.getMock(method, url, string(requestBody)); mock != nil {
 		return mock.GetResponse()
 	}
@@ -75,13 +75,42 @@ func (c *httpClient) do(method string, url string, headers http.Header, body int
 	return &Response{response.Status, response.StatusCode, response.Header, responseBody}, nil
 }
 
+// returns a map of type headers containing both the common headers like authorization Header
+// set on the httpClient and a request specific header e.g timeout or Content-Type
+func (c *httpClient) getAllRequestHeaders(requestHeaders http.Header) http.Header {
+	result := make(http.Header)
+	for k, v := range c.builder.headers {
+		if len(v) > 0 {
+			result.Set(k, v[0])
+		}
+	}
+
+	// Add custom headers:
+	for k, v := range requestHeaders {
+		if len(v) > 0 {
+			result.Set(k, v[0])
+		}
+	}
+
+	// set the userAgent if not present.
+	if c.builder.userAgent != "" {
+		if result.Get("User-Agent") != "" {
+			return result
+		}
+		result.Set("User-Agent", c.builder.userAgent)
+	}
+
+	return result
+}
+
 // http.Client is created on the first request and all subsequent request use same instance.
 func (c *httpClient) getHttpClient() *http.Client {
-
 	c.clientOnce.Do(func() {
-		fmt.Println("==========================")
-		fmt.Println("Creating a new HTTP client")
-		fmt.Println("==========================")
+		// created by calling SetHTTPClient on builder.
+		if c.builder.client != nil {
+			c.client = c.builder.client
+			return
+		}
 
 		c.client = &http.Client{
 			// setting this timeout enables us to disable the timeout totally.
@@ -129,24 +158,4 @@ func (c *httpClient) GetConnectionTimeout() time.Duration {
 	}
 
 	return defaultConnectionTimeout
-}
-
-// returns a map of type headers containing both the common headers like authorization Header
-// set on the httpClient and a request specific header e.g timeout or Content-Type
-func (c *httpClient) getAllRequestHeaders(requestHeaders http.Header) http.Header {
-	result := make(http.Header)
-	for k, v := range c.builder.headers {
-		if len(v) > 0 {
-			result.Set(k, v[0])
-		}
-	}
-
-	// Add custom headers:
-	for k, v := range requestHeaders {
-		if len(v) > 0 {
-			result.Set(k, v[0])
-		}
-	}
-
-	return result
 }
