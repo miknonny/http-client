@@ -10,6 +10,9 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	httpmock_server "github.com/miknonny/http-client/mock"
+	gohttp_types "github.com/miknonny/http-client/types"
 )
 
 const (
@@ -36,7 +39,7 @@ func (c *httpClient) marshalRequestBody(contentType string, body interface{}) ([
 }
 
 // This core function sends the request to the server. // Prepares the request body and headers fo flight.
-func (c *httpClient) do(method string, url string, headers http.Header, body interface{}) (*Response, error) {
+func (c *httpClient) do(method string, url string, headers http.Header, body interface{}) (*gohttp_types.Response, error) {
 
 	fullHeaders := c.getAllRequestHeaders(headers)
 
@@ -46,7 +49,7 @@ func (c *httpClient) do(method string, url string, headers http.Header, body int
 	}
 
 	// We are still yet to remove the mock from our source code.
-	if mock := mockupServer.getMock(method, url, string(requestBody)); mock != nil {
+	if mock := httpmock_server.GetMock(method, url, string(requestBody)); mock != nil {
 		return mock.GetResponse()
 	}
 
@@ -72,7 +75,11 @@ func (c *httpClient) do(method string, url string, headers http.Header, body int
 		return nil, err
 	}
 
-	return &Response{response.Status, response.StatusCode, response.Header, responseBody}, nil
+	return &gohttp_types.Response{
+		Status:     response.Status,
+		StatusCode: response.StatusCode,
+		Headers:    response.Header, Body: responseBody,
+	}, nil
 }
 
 // returns a map of type headers containing both the common headers like authorization Header

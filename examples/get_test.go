@@ -8,13 +8,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/miknonny/http-client/gohttp"
+	httpmock_server "github.com/miknonny/http-client/mock"
 )
 
 func TestMain(m *testing.M) {
 	fmt.Println("about to start test cases for package 'example'")
 
-	gohttp.StartMockServer()
+	httpmock_server.StartMockServer()
 
 	os.Exit(m.Run())
 }
@@ -26,8 +26,8 @@ func TestGetEndpoints(t *testing.T) {
 	t.Run("TestErrorFetchingFromGithub", func(t *testing.T) {
 
 		//Initialization:
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method: http.MethodGet,
 			Url:    "https://api.github.com",
 			Error:  errors.New("timeout getting github endpoint"),
@@ -53,8 +53,8 @@ func TestGetEndpoints(t *testing.T) {
 	t.Run("TestErrorUnmarshalResponseBody", func(t *testing.T) {
 
 		// Initialization:
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:             http.MethodGet,
 			Url:                "https://api.github.com",
 			ResponseStatusCode: http.StatusOK,
@@ -83,8 +83,8 @@ func TestGetEndpoints(t *testing.T) {
 	t.Run("TestNoError", func(t *testing.T) {
 
 		// Initialization:
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:             http.MethodGet,
 			Url:                "https://api.github.com",
 			ResponseStatusCode: http.StatusOK,
