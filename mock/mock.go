@@ -1,8 +1,10 @@
-package gohttp
+package httpmock_server
 
 import (
 	"fmt"
 	"net/http"
+
+	gohttp_types "github.com/miknonny/http-client/types"
 )
 
 // We will be using method + url + RequestBody to create a mocking key.
@@ -24,15 +26,15 @@ type Mock struct {
 }
 
 // GetResponse Returns the response object based on the mock configuration.
-func (m *Mock) GetResponse() (*Response, error) {
+func (m *Mock) GetResponse() (*gohttp_types.Response, error) {
 	if m.Error != nil {
 		return nil, m.Error
 	}
 
-	response := Response{
-		status:     fmt.Sprintf("%d %s", m.ResponseStatusCode, http.StatusText(m.ResponseStatusCode)),
-		statusCode: m.ResponseStatusCode,
-		body:       []byte(m.ResponseBody),
+	response := gohttp_types.Response{
+		Status:     fmt.Sprintf("%d %s", m.ResponseStatusCode, http.StatusText(m.ResponseStatusCode)),
+		StatusCode: m.ResponseStatusCode,
+		Body:       []byte(m.ResponseBody),
 	}
 
 	return &response, nil

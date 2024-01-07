@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/miknonny/http-client/gohttp"
+	httpmock_server "github.com/miknonny/http-client/mock"
 )
 
 func TestCreateRepo(t *testing.T) {
 	t.Run("timeoutFromGithub", func(t *testing.T) {
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:      http.MethodPost,
 			Url:         "https://api.github.com/user/repos",
 			RequestBody: `{"name":"test-repo","private":true}`,
@@ -42,8 +42,8 @@ func TestCreateRepo(t *testing.T) {
 	})
 
 	t.Run("GithubPostError", func(t *testing.T) {
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:      http.MethodPost,
 			Url:         "https://api.github.com/user/repos",
 			RequestBody: `{"name":"test-repo","private":true}`,
@@ -74,8 +74,8 @@ func TestCreateRepo(t *testing.T) {
 	})
 
 	t.Run("UnmarshalGithubError", func(t *testing.T) {
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:      http.MethodPost,
 			Url:         "https://api.github.com/user/repos",
 			RequestBody: `{"name":"test-repo","private":true}`,
@@ -106,8 +106,8 @@ func TestCreateRepo(t *testing.T) {
 	})
 
 	t.Run("UnmarshalRepositoryError", func(t *testing.T) {
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:      http.MethodPost,
 			Url:         "https://api.github.com/user/repos",
 			RequestBody: `{"name":"test-repo","private":true}`,
@@ -138,8 +138,8 @@ func TestCreateRepo(t *testing.T) {
 	})
 
 	t.Run("No Error", func(t *testing.T) {
-		gohttp.FlushMocks()
-		gohttp.AddMock(&gohttp.Mock{
+		httpmock_server.DeleteAllMocks()
+		httpmock_server.AddMock(&httpmock_server.Mock{
 			Method:      http.MethodPost,
 			Url:         "https://api.github.com/user/repos",
 			RequestBody: `{"name":"test-repo","private":true}`,

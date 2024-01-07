@@ -24,7 +24,7 @@ func CreateRepo(request *Repository) (*Repository, error) {
 
 	// if the repo was not created, we investigate the json error message returned from github.
 	// we write code based on the flow of the api. remember that.
-	if response.StatusCode() != http.StatusCreated {
+	if response.StatusCode != http.StatusCreated {
 		var githubError GithubError
 		if err := response.UnmarshalJson(&githubError); err != nil {
 			return nil, errors.New("error processing github error response when creating a new repo")

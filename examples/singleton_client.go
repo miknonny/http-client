@@ -18,3 +18,5 @@ func getHttpClient() gohttp.Client {
 
 	return client
 }
+
+// TODO. Examine the go std library for definition of packages then add more work to your package.

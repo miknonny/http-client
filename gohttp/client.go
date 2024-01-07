@@ -3,6 +3,8 @@ package gohttp
 import (
 	"net/http"
 	"sync"
+
+	gohttp_types "github.com/miknonny/http-client/types"
 )
 
 type httpClient struct {
@@ -12,34 +14,34 @@ type httpClient struct {
 }
 
 type Client interface {
-	Get(url string, headers http.Header) (*Response, error)
-	Post(url string, headers http.Header, body interface{}) (*Response, error)
-	Put(url string, headers http.Header, body interface{}) (*Response, error)
-	Patch(url string, headers http.Header, body interface{}) (*Response, error)
-	Delete(url string, headers http.Header) (*Response, error)
-	Options(url string, headers http.Header) (*Response, error)
+	Get(url string, headers http.Header) (*gohttp_types.Response, error)
+	Post(url string, headers http.Header, body interface{}) (*gohttp_types.Response, error)
+	Put(url string, headers http.Header, body interface{}) (*gohttp_types.Response, error)
+	Patch(url string, headers http.Header, body interface{}) (*gohttp_types.Response, error)
+	Delete(url string, headers http.Header) (*gohttp_types.Response, error)
+	Options(url string, headers http.Header) (*gohttp_types.Response, error)
 }
 
-func (c *httpClient) Get(url string, headers http.Header) (*Response, error) {
+func (c *httpClient) Get(url string, headers http.Header) (*gohttp_types.Response, error) {
 	return c.do(http.MethodGet, url, headers, nil)
 }
 
-func (c *httpClient) Post(url string, headers http.Header, body interface{}) (*Response, error) {
+func (c *httpClient) Post(url string, headers http.Header, body interface{}) (*gohttp_types.Response, error) {
 	return c.do(http.MethodPost, url, headers, body)
 }
 
-func (c *httpClient) Put(url string, headers http.Header, body interface{}) (*Response, error) {
+func (c *httpClient) Put(url string, headers http.Header, body interface{}) (*gohttp_types.Response, error) {
 	return c.do(http.MethodPut, url, headers, body)
 }
 
-func (c *httpClient) Patch(url string, headers http.Header, body interface{}) (*Response, error) {
+func (c *httpClient) Patch(url string, headers http.Header, body interface{}) (*gohttp_types.Response, error) {
 	return c.do(http.MethodPatch, url, headers, body)
 }
 
-func (c *httpClient) Delete(url string, headers http.Header) (*Response, error) {
+func (c *httpClient) Delete(url string, headers http.Header) (*gohttp_types.Response, error) {
 	return c.do(http.MethodDelete, url, headers, nil)
 }
 
-func (c *httpClient) Options(url string, headers http.Header) (*Response, error) {
+func (c *httpClient) Options(url string, headers http.Header) (*gohttp_types.Response, error) {
 	return c.do(http.MethodOptions, url, headers, nil)
 }
