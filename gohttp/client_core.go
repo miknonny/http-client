@@ -30,7 +30,6 @@ func (c *httpClient) marshalRequestBody(contentType string, body interface{}) ([
 	switch strings.ToLower(contentType) {
 	case "application/json":
 		return json.Marshal(body)
-
 	case "application/xml":
 		return xml.Marshal(body)
 	default:
@@ -42,8 +41,7 @@ func (c *httpClient) marshalRequestBody(contentType string, body interface{}) ([
 func (c *httpClient) do(method string, url string, headers http.Header, body interface{}) (*gohttp_types.Response, error) {
 
 	fullHeaders := c.getAllRequestHeaders(headers)
-
-	requestBody, err := c.marshalRequestBody(fullHeaders.Get("Content_type"), body)
+	requestBody, err := c.marshalRequestBody(fullHeaders.Get("Content-Type"), body)
 	if err != nil {
 		return nil, err
 	}

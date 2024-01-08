@@ -1,4 +1,4 @@
-package httpmock_server
+package httpmock
 
 import (
 	"crypto/md5"
@@ -33,6 +33,7 @@ func StopMockServer() {
 	defer mockupServer.mu.Unlock()
 
 	mockupServer.enabled = true
+
 }
 
 func AddMock(mock *Mock) {

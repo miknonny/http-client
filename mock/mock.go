@@ -1,4 +1,4 @@
-package httpmock_server
+package httpmock
 
 import (
 	"fmt"
