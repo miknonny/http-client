@@ -8,13 +8,13 @@ import (
 	"strings"
 	"testing"
 
-	httpmock "github.com/miknonny/http-client/mock"
+	httpmock "github.com/miknonny/http-client/v3/mock"
 )
 
 func TestMain(m *testing.M) {
 	fmt.Println("about to start test cases for package 'example'")
 
-	// httpmock.StartMockServer()
+	httpmock.StartMockServer()
 
 	os.Exit(m.Run())
 }

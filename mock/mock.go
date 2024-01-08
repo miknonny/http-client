@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	gohttp_types "github.com/miknonny/http-client/types"
+	gohttp_types "github.com/miknonny/http-client/v3/types"
 )
 
 // We will be using method + url + RequestBody to create a mocking key.

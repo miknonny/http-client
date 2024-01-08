@@ -3,7 +3,7 @@ package examples
 import (
 	"time"
 
-	"github.com/miknonny/http-client/gohttp"
+	"github.com/miknonny/http-client/v3/gohttp"
 )
 
 var (
