@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	httpmock "github.com/miknonny/http-client/mock"
+	httpmock "github.com/miknonny/http-client/v3/mock"
 )
 
 func TestCreateRepo(t *testing.T) {

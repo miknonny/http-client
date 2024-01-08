@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	httpmock_server "github.com/miknonny/http-client/mock"
-	gohttp_types "github.com/miknonny/http-client/types"
+	httpmock_server "github.com/miknonny/http-client/v3/mock"
+	gohttp_types "github.com/miknonny/http-client/v3/types"
 )
 
 const (
